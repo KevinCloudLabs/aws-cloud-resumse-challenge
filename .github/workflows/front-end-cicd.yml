@@ -1,18 +1,14 @@
 name: Deploy website to S3
-
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     permissions:
       id-token: write
       contents: read
-
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -20,15 +16,15 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::399078540634:role/github-actions-deploy
-          aws-region: us-west-1   # change if needed
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-actions-deploy
+          aws-region: us-west-1
 
       - name: Deploy to S3
         run: |
-          aws s3 sync ./website s3://cloud-resume-challenge-kevin-l --delete
-  
+          aws s3 sync ./website s3://${{ secrets.S3_BUCKET_NAME }} --delete
+
       - name: Invalidate CloudFront cache
         run: |
           aws cloudfront create-invalidation \
-            --distribution-id E3CLT07Z75J4IG \
+            --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} \
             --paths "/*"
