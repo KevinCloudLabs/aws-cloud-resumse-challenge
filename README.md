@@ -100,8 +100,8 @@ All AWS resources are defined in Terraform — nothing was clicked together in t
 
 ```bash
 # 1. Clone the repo
-git clone https://github.com/KevinCloudLabs/aws-cloud-reumse-challenge.git
-cd aws-cloud-reumse-challenge
+git clone https://github.com/KevinCloudLabs/aws-cloud-resume-challenge.git
+cd aws-cloud-resume-challenge
 
 # 2. Deploy infrastructure
 cd infrastructure
